@@ -140,3 +140,16 @@ variable "enabled" {
   default     = true
   description = "Set to `false` to prevent the module from creating any resources"
 }
+
+variable "target_bucket" {
+  type        = string
+  default     = "accesslogs-s3"
+  description = "Access log bucket"
+}
+
+variable "target_prefix" {
+  type        = string
+  default     = "logs/"
+  description = "Access log bucket"
+}
+

@@ -1,3 +1,9 @@
+data "aws_caller_identity" "current" {}
+
+output "account_id" {
+  value = "${data.aws_caller_identity.current.account_id}"
+}
+
 module "default_label" {
   source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.16.0"
   enabled     = var.enabled
@@ -59,6 +65,11 @@ resource "aws_s3_bucket" "default" {
     expiration {
       days = var.expiration_days
     }
+  }
+
+  logging {
+    target_bucket = "${var.namespace}-${var.stage}-${var.target_bucket}-${var.region}-${data.aws_caller_identity.current.account_id}"
+    target_prefix = var.target_prefix
   }
 
   # https://docs.aws.amazon.com/AmazonS3/latest/dev/bucket-encryption.html
